@@ -1,0 +1,91 @@
+<script>
+
+// 사이드 메뉴바 스크립트
+$(".button-collapse").sideNav({
+  edge: 'right',
+  menuWidth: 200 // Default is 240
+});
+
+// collapsible
+$(document).ready(function(){
+  $('.collapsible').collapsible({
+    accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+  });
+});
+
+
+$("#m_seoul").click(function(){
+  map.setCenter(new naver.maps.LatLng(37.555834,126.973317));
+  map.setZoom(13);
+  $('.button-collapse').sideNav('hide');
+});
+
+
+
+$("#sokcho").click(function(){
+  map.setCenter(new naver.maps.LatLng(38.190517,128.599078));
+  map.setZoom(10);
+  // alert('하이');
+});
+
+
+$("#m_busan").click(function(){
+  map.setCenter(new naver.maps.LatLng(35.115091,129.041454));
+  map.setZoom(10);
+  $('.button-collapse').sideNav('hide');
+});
+
+$("#ulsan").click(function(){
+  map.setCenter(new naver.maps.LatLng(35.3591404,129.3601572));
+  map.setZoom(10);
+});
+
+$("#m_ulsan").click(function(){
+  map.setCenter(new naver.maps.LatLng(35.3591404,129.3601572));
+  map.setZoom(10);
+  $('.button-collapse').sideNav('hide');
+});
+
+$("#ulleungdo").click(function(){
+  map.setCenter(new naver.maps.LatLng(37.482083,130.9022443));
+  map.setZoom(10);
+});
+
+$("#m_ulleungdo").click(function(){
+  map.setCenter(new naver.maps.LatLng(37.482083,130.9022443));
+  map.setZoom(10);
+  $('.button-collapse').sideNav('hide');
+});
+
+$("#dokdo").click(function(){
+  map.setCenter(new naver.maps.LatLng(37.239105,131.868606));
+  map.setZoom(10);
+});
+
+$("#m_dokdo").click(function(){
+  map.setCenter(new naver.maps.LatLng(37.239105,131.868606));
+  map.setZoom(10);
+  $('.button-collapse').sideNav('hide');
+});
+
+
+$(".suggest").click(function(){
+  $('.modal_info').closeModal();
+  $('#qna').openModal();
+  $('.button-collapse').sideNav('hide');
+
+  // alert('하이');
+});
+
+$(".guide").click(function(){
+  // $('.modal_info').closeModal();
+  $('#about').openModal();
+  // $('.button-collapse').sideNav('hide');
+
+  // alert('하이');
+});
+
+
+Materialize.toast('내 현재 위치보기 ▼', 5000); // 4000 is the duration of the toast
+
+</script>

@@ -1,0 +1,347 @@
+<script>
+// 지도 옵션
+var mapOptions = {
+    // 지도 중앙
+    center: new naver.maps.LatLng(37.493239, 127.013825),
+    // zoom 레벨
+    zoom: 11,
+    // minZoom: 10,
+    zoomControl: false,
+    logoControl: false,
+    mapDataControl: false,
+    mapTypeControl: true,
+    scaleControl: false,
+
+};
+
+// 지도 만들기('지도', 지도옵션)
+var map = new naver.maps.Map('map', mapOptions);
+
+
+
+// DB에 있는 것들을 배열로 만들어서 넣은 변수
+var allmarkers = []
+
+// allmarkers 중 화면 Bound에 있는 배열만 넣은 변수
+var themarker = []
+
+// themarker에 있는 것들을 마커로 만들어서 담은 변수
+var markers = []
+
+// 내 마커를 담을 곳
+var mymarkers = []
+
+// DB에 있는 것들을 모두 allmarkers 변수에 넣기
+<% @spots.each do |s| %>
+  <% unless s.latitude.nil? %>
+    var mrk = [<%= s.latitude + 0.3 %>, <%= s.longitude - 0.2 %>, <%= s.category %>, '<%= s.spotname %>']
+    allmarkers.push(mrk);
+  <% end %>
+<% end %>
+
+if (map.getZoom() > 7) {
+
+  checkNowmarker();
+  // 마커 만드는 함수 (아래에 정의함)
+  makeMarker();
+
+  // 마커 클릭이벤트 만드는 함수 (아래에 정의함)
+  markerClick();
+}
+
+// ***마커 만들기 전 모든 마커 지도에서 지우고 변수도 초기화 하는 함수***
+function markerInit() {
+  // 모든 마커 지도에서 지우기
+  if (typeof markers !== 'undefined' ) {
+    for (var i = 0; i < markers.length; i ++) {
+    	var onemarker = markers[i]
+    	onemarker.setMap(null);
+      naver.maps.Event.clearListeners(markers[i], 'click', getClickHandler(i));
+    }
+  }
+  // 마커초기화
+  themarker = []
+  markers = []
+}
+// ***초기화 하는 함수끝***
+
+
+// ****************마커 만드는 함수**********************
+function makeMarker() {
+
+  // themarker에 담긴 애들을 '진짜 마커'로 만들어서 markers에 넣는다.
+  for (var i = 0; i < themarker.length; i++) {
+    var onespot = themarker[i]
+    var position = new naver.maps.LatLng(onespot[0]-0.3, onespot[1]+0.2);
+
+    // 만약에 카테고리가 0이면 포켓스탑으로 마커를 만들고 1이면 체육관으로 마커를 만들어라
+    if (onespot[2]==0) {
+      var marker = new naver.maps.Marker({
+        position: position,
+        map: map,
+        icon: {
+              url: '/assets/map_stop.png',
+
+            // naver.maps.Size(width,height)처럼 입력
+            size: new naver.maps.Size(30, 30),
+            // 강제로 이미지 사이즈를 조절
+            scaledSize: new naver.maps.Size(30, 30),
+
+            // naver.maps.Point(x좌표,y좌표)
+            // origin: 이미지의 아이콘을 사용할 때 이미지의 원점입니다.
+            // 즉, 이 원점 위치로부터 size 속성의 값만큼 화면에 노출됩니다.
+            origin: new naver.maps.Point(0, 0)
+        },
+        type: 0,
+        name: onespot[3]
+      });
+    } else{
+      var marker = new naver.maps.Marker({
+        position: position,
+        map: map,
+        icon: {
+              url: '/assets/map_gym.png',
+            size: new naver.maps.Size(30, 30),
+            scaledSize: new naver.maps.Size(30, 30),
+            origin: new naver.maps.Point(0, 0)
+        },
+        type: 1,
+        name: onespot[3]
+      });
+    }
+    // 만들어진 진짜 마커들을 markers에 담는다.
+    markers.push(marker);
+  }
+};
+// ****************마커 만드는 함수끝**********************
+
+function checkNowmarker () {
+  // 현재 화면 위치 가져오기
+  var bounds = map.getBounds(),
+      southWest = bounds.getSW(),
+      northEast = bounds.getNE(),
+      fromlat = southWest.lat(),
+      tolat = northEast.lat(),
+      fromlng = southWest.lng(),
+      tolng = northEast.lng()
+
+  // allmarkers 중 현재 화면 위치에 있는 것들만 themarker 변수에 넣음
+  for (var i = 0; i < allmarkers.length; i ++) {
+    var onemrk = allmarkers[i]
+    if (onemrk[0] > fromlat+0.3 && onemrk[0] < tolat+0.3 && onemrk[1] > fromlng-0.2 && onemrk[1] < tolng-0.2){
+    themarker.push(onemrk)
+    }
+  }
+};
+
+// idle이라는건 지도를 움직일때마다 실행시키는 함수
+// 지도를 움직일때 마다 markerInit(마커 초기화 함수), makeMarker(마커 생성 함수),
+// markerClick(마커 클릭이벤트 만드는 함 수), closeModal(모달[포켓스탑 이름알려주는 모달] 닫기)를 실행시킨다.
+
+
+
+naver.maps.Event.addListener(map, 'idle', function() {
+    markerInit();
+
+    checkNowmarker ();
+
+    if (themarker.length < 400) {
+      makeMarker();
+      markerClick();
+    } else if (themarker.length < 2000 && map.getZoom()> 7) {
+      var $toastContent = $('<span id="toast2">스탑이 너무 많아 <br />보이지 않습니다!<br />화면을 확대해주세요!</span>');
+      Materialize.toast($toastContent, 2000); // 4000 is the duration of the toast
+    } else {
+
+    }
+
+    // if (map.getZoom() > 9) {
+    // makeMarker();
+    // markerClick();
+    // }
+    $('.modal').closeModal();
+
+    console.log(map.getZoom());
+});
+
+
+
+function updateMarkers(map, markers) {
+
+    // var lastmarker = markers;
+
+    for (var i = 0; i < markers.length; i++) {
+        marker = markers[i]
+        marker.setMap(map);
+    }
+}
+// function showMarker(map, marker) {
+//
+// }
+
+
+// 지도 아무데나 click 할때마다 실행되는 함수
+// 현재는 모달 닫는 용도로만 쓰이는 중
+naver.maps.Event.addListener(map, 'click', function() {
+  $('.modal').closeModal();
+});
+
+
+// 마커 클릭 이벤트 정의할때 쓰일 함수
+// 마커 클릭하면 해당 마커 이미지를 바꾸고 밑에 모달이 뜨게 한다.
+function getClickHandler(seq) {
+    return function(e) {
+        var marker = markers[seq]
+
+        // for (var i = 0; i < markers.length; i++) {
+        //   if (markers[i].type == 0)
+        //   {markers[i].icon.url = "/assets/map_stop";
+        //   markers[i].icon.size = new naver.maps.Size(30, 30),
+        //   markers[i].icon.scaledSize = new naver.maps.Size(30, 30)}
+        //   else
+        //   {markers[i].icon.url = "/assets/map_gym";
+        //   markers[i].icon.size = new naver.maps.Size(30, 30),
+        //   markers[i].icon.scaledSize = new naver.maps.Size(30, 30)}
+        // }
+        // console.log(marker.icon.size);
+
+      if (marker.icon.size.width == 45) {
+        if (marker.type == 0)
+          {marker.icon.url = "/assets/map_stop";
+          marker.icon.size = new naver.maps.Size(30, 30),
+          marker.icon.scaledSize = new naver.maps.Size(30, 30)
+        }
+        else
+          {marker.icon.url = "/assets/map_gym";
+          marker.icon.size = new naver.maps.Size(30, 30),
+          marker.icon.scaledSize = new naver.maps.Size(30, 30)
+        }
+        // 이전 모달 닫기
+         $('.modal_info').closeModal();
+      }
+      else{
+        if (marker.type == 0)
+          {marker.icon.url = "/assets/map_selected_stop";
+          marker.icon.size= new naver.maps.Size(45, 45),
+          marker.icon.scaledSize= new naver.maps.Size(45, 45)
+        }
+        else
+          {marker.icon.url = "/assets/map_selected_gym";
+          marker.icon.size= new naver.maps.Size(45, 45),
+          marker.icon.scaledSize= new naver.maps.Size(45, 45)
+        }
+        // 이전 모달 닫기
+         $('.modal_info').closeModal();
+
+        // 이전 모달 내용 지우기
+         $(".modal_info").empty();
+
+        // 모달 안에 내용 채우기
+          $(".modal_info").append($('<li/>', {
+              class: 'modal-li',
+          }));
+          $(".modal-li").append($('<div/>', {
+              class: 'collapsible-header',
+          }));
+          $(".collapsible-header").append('<img style="height:30px;padding-right:6px;padding-top:10px" src="<%= image_path 'web_icon.png' %>">');
+          $(".collapsible-header").append($('<b/>', {
+              text: marker.name
+          }));
+
+          //  모달 열기
+          $('.modal_info').openModal();
+
+          // 모달 검정 배경 삭제하기
+          $( ".lean-overlay" ).remove();
+
+
+      }
+
+      // console.log(seq);
+      // var lastmarker = marker;
+      // console.log(lastmarker.name);
+        marker.setMap(map);
+
+      // if (typeof lastmarker !== 'undefined' ) {
+      //   lastmarker.setMap(map);
+      // }
+        // updateMarkers(map, markers);
+
+
+
+    }
+}
+
+// 마커 클릭 이벤트를 추가하는 함수
+// *얘도 지도 옮길때마다 초기화 해주고 해야함. 초기화는 markerInit에서 다해줌
+function markerClick() {
+  for (var i=0, ii=markers.length; i<ii; i++) {
+      naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
+  }
+}
+
+// 현재 위치 찾는 버튼 만들기
+var locationBtnHtml = '<div id="geolocationBtn" class="" style="background-color: rgb(255, 255, 255); border: 2px solid rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px; margin-right: 10px; cursor: pointer; border-radius: 2px; padding: 3px; z-index: 0; position: absolute; bottom: 14px; right: 0px;"><div id="geolocationIcon" ></div></div>';
+var customControl = new naver.maps.CustomControl(locationBtnHtml, {
+    position: naver.maps.Position.BOTTOM_RIGHT
+});
+
+customControl.setMap(map);
+
+var domEventListener = naver.maps.Event.addDOMListener(customControl.getElement(), 'click', function() {
+    if (document.getElementById("geolocationIcon").classList.contains('geoClicked')) {
+      document.getElementById("geolocationIcon").classList.remove( 'geoClicked' );
+      mymarkers[0].setMap(null);
+    }
+    else {
+      mymarkers = [];
+      checkingGeolocation();
+    }
+
+});
+
+// 현재위치 가져오기
+function onSuccessGeolocation(position) {
+    var location = new naver.maps.LatLng(position.coords.latitude,
+                                         position.coords.longitude);
+
+    map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
+    map.setZoom(13); // 지도의 줌 레벨을 변경합니다.
+
+    var mymarker = new naver.maps.Marker({
+        position: location,
+        map: map,
+        icon: {
+            url: '/assets/myplace.png',
+            size: new naver.maps.Size(18, 18),
+            scaledSize: new naver.maps.Size(15, 15),
+            origin: new naver.maps.Point(0, 0)
+        },
+        zIndex:0
+    });
+
+    mymarkers.push(mymarker);
+    document.getElementById("geolocationIcon").className += " geoClicked"
+}
+
+function onErrorGeolocation() {
+    var center = map.getCenter();
+
+    infowindow.setContent('<div style="padding:20px;">' +
+        '<h5 style="margin-bottom:5px;color:#f00;">Geolocation failed!</h5>'+ "latitude: "+ center.lat() +"<br />longitude: "+ center.lng() +'</div>');
+
+    infowindow.open(map, center);
+}
+
+function checkingGeolocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
+    } else {
+        var center = map.getCenter();
+        infowindow.setContent('<div style="padding:20px;"><h5 style="margin-bottom:5px;color:#f00;">Geolocation not supported</h5>'+ "latitude: "+ center.lat() +"<br />longitude: "+ center.lng() +'</div>');
+        infowindow.open(map, center);
+    }
+};
+
+
+</script>

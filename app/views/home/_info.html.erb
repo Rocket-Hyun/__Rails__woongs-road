@@ -1,0 +1,210 @@
+<div class="info">
+
+<!-- 마커 클릭시 모달 내용이 들어갈 곳-->
+<ul class="collapsible modal bottom-sheet modal_info" data-collapsible="accordion"></ul>
+
+<!--설명하는 모달-->
+<div id="about" class="modal bottom-sheet">
+  <div class="row">
+    <div class="col s12 m6  offset-m3">
+      <!--<div class="card">-->
+      <!--<div class="card-image">-->
+      <img src="<%= image_path 'about.png' %>" style="width:100%;">
+      <!--</div>-->
+      <!--</div>-->
+    </div>
+  </div>
+</div>
+
+<!--의견 제보하기 모달-->
+<div id="qna" class="modal bottom-sheet">
+  <iframe src="https://docs.google.com/a/u.sogang.ac.kr/forms/d/e/1FAIpQLSf3EYe_wKQkKWT87QkQRbMkUqgyRpzP_LABkClPutdhH-k47w/viewform?embedded=true" width="100%" height="500" frameborder="0" marginheight="0" marginwidth="0">로드 중...</iframe>
+</div>
+  
+  
+  <!--원래 만들려고 했던 modal 틀-->
+  
+<!--<ul id="modal1" class="collapsible modal bottom-sheet" data-collapsible="accordion">-->
+<!--  <li>-->
+<!--    <div class="collapsible-header"><i class="material-icons">place</i>-->
+    
+<!--    <b><span style="font-size:1.2em">이름</span>-->
+    
+<!--      </b>-->
+<!--    </div>-->
+      
+<!--    <div class="collapsible-body grey lighten-4">-->
+    
+<!--        <div class="row">   -->
+<!--          <div class="col s12">-->
+<!--            <ul class="collapsible popout" data-collapsible="accordion">-->
+<!--              <li>-->
+<!--                <div class="collapsible-header"><i class="material-icons">local_cafe</i><span style="font-size:15px;">스타벅스</span></div>-->
+<!--              </li>-->
+<!--              <li>-->
+<!--                <div class="collapsible-header"><i class="material-icons">store_mall_directory</i><span style="font-size:15px;">GS25</span></div>-->
+<!--              </li>-->
+<!--            </ul>-->
+<!--          </div> -->
+<!--        </div>-->
+<!--    </div>-->
+<!--  </li>-->
+<!--</ul>-->
+
+
+
+<!--<ul id="modal1" class="collapsible modal bottom-sheet" data-collapsible="accordion">-->
+<!--  <li>-->
+<!--    <div class="collapsible-header"><i class="material-icons">place</i>-->
+    
+<!--    <b><span style="font-size:1.2em">이름</span>-->
+    
+<!--      </b>-->
+<!--    </div>-->
+      
+<!--    <div class="collapsible-body grey lighten-4">-->
+    
+<!--        <div class="row">   -->
+<!--          <div class="col s12">-->
+<!--            <ul class="collapsible popout" data-collapsible="accordion">-->
+<!--              <li>-->
+<!--                <div class="collapsible-header"><i class="material-icons">local_cafe</i><span style="font-size:15px;">스타벅스</span></div>-->
+<!--              </li>-->
+<!--              <li>-->
+<!--                <div class="collapsible-header"><i class="material-icons">store_mall_directory</i><span style="font-size:15px;">GS25</span></div>-->
+<!--              </li>-->
+<!--            </ul>-->
+<!--          </div> -->
+<!--        </div>-->
+<!--    </div>-->
+<!--  </li>-->
+<!--</ul>-->
+        
+
+
+
+
+
+
+
+<!--<ul id="modal1" class="collapsible modal bottom-sheet" data-collapsible="accordion">-->
+<!--          <li>-->
+<!--            <div class="collapsible-header"><i class="material-icons">place</i>-->
+            
+<!--            <b><span style="font-size:1.2em">신촌 빨간 잠만경</span>-->
+            
+<!--            &nbsp;&nbsp;-->
+              
+<!--              <i class="material-icons" style="display: inline; float: none;margin-right:0px;">local_cafe</i> 2 -->
+            
+<!--              <i class="material-icons" style="display: inline; float: none;margin-right:0px;">restaurant</i> 1-->
+              
+<!--              <i class="material-icons" style="display: inline; float: none;margin-right:0px;">store_mall_directory</i> 1-->
+              
+<!--              </b></div>-->
+              
+<!--            <div class="collapsible-body grey lighten-4">-->
+            
+<!--                <div class="row">   -->
+                
+<!--                  <div class="col s12">-->
+
+<!--                    <ul class="collapsible popout" data-collapsible="accordion">-->
+<!--                      <li>-->
+<!--                        <div class="collapsible-header"><i class="material-icons">local_cafe</i><b style="font-size:15px;">커피공장&nbsp;&nbsp;&nbsp;-->
+                        
+                        <!--<i class="material-icons" style="display: inline; float: none;margin-right:0px;">stars</i>-->
+<!--                        [-->
+<!--                        <i class="tiny material-icons" style="display: inline; float: none;margin-right:0px;">wifi</i>-->
+<!--                        <i class="material-icons" style="display: inline; float: none;margin-right:0px;">power</i>-->
+<!--                        ]-->
+                        
+<!--                        </b></div>-->
+<!--                        <div class="collapsible-body">-->
+<!--                          <div class="row">-->
+<!--                          <div class="col s12">  -->
+<!--                            <br>-->
+<!--                            <span class="info_category">-->
+<!--                             <b > [카페 / 와이파이 / 콘센트]</b>-->
+<!--                            </span><br><br>-->
+<!--                            <span class="info_title">-->
+<!--                              <b>트레이너 혜택</b>-->
+<!--                            </span><br>-->
+<!--                            <span class="info_content">-->
+<!--                              <i class="tiny material-icons">stars</i>&nbsp;샷 추가 무료-->
+<!--                            </span><br>-->
+<!--                            <span class="info_title">-->
+<!--                              <b>가게정보</b>-->
+<!--                            </span><br>-->
+<!--                            <span class="info_content">-->
+<!--                              <i class="tiny material-icons">query_builder</i>&nbsp;영업 시간: 10:00 ~ 22:00-->
+<!--                            </span><br>-->
+<!--                            <span class="info_content">-->
+<!--                              <i class="tiny material-icons">call</i>&nbsp;전화 번호: 070 - 4710 - 5607-->
+<!--                            </span><br>-->
+<!--                            <span class="info_content">-->
+<!--                              <i class="tiny material-icons">chat_bubble_outline</i>&nbsp;사장님 한마디: -->
+<!--                            </span><br>-->
+<!--                            <span class="info_content">-->
+<!--                              피카츄 잡은 트레이너는 서비스 추가 드릴께요!-->
+<!--                            </span>-->
+<!--                          </div>-->
+<!--                          </div>-->
+<!--                        </div>-->
+<!--                      </li>-->
+<!--                      <li>-->
+<!--                        <div class="collapsible-header"><i class="material-icons">restaurant</i><b style="font-size:15px;">아비꼬&nbsp;&nbsp;&nbsp;-->
+                        
+<!--                        [-->
+                        <!--<i class="material-icons" style="display: inline; float: none;margin-right:0px;">stars</i>-->
+<!--                        <i class="tiny material-icons" style="display: inline; float: none;margin-right:0px;">wifi</i>-->
+<!--                        ]-->
+                        
+<!--                        </b></div>-->
+<!--                        <div class="collapsible-body">-->
+<!--                          <div class="row">-->
+<!--                            <div class="col s12">  -->
+<!--                              <br>-->
+<!--                              <span class="info_category">-->
+<!--                               <b> [일식 / 와이파이]</b>-->
+<!--                              </span><br><br>-->
+<!--                              <span class="info_title">-->
+<!--                                <b>트레이너 혜택</b>-->
+<!--                              </span><br>-->
+<!--                              <span class="info_content">-->
+<!--                                사이드 메뉴 1개 무료-->
+<!--                              </span><br>-->
+<!--                              <span class="info_title">-->
+<!--                                <b>가게정보</b>-->
+<!--                              </span><br>-->
+<!--                              <span class="info_content">-->
+<!--                                영업 시간: 10:00 ~ 22:00-->
+<!--                              </span><br>-->
+<!--                              <span class="info_content">-->
+<!--                                전화 번호: 070 - 4710 - 5607-->
+<!--                              </span><br>-->
+<!--                              <span class="info_content">-->
+<!--                                사장님 한마디: -->
+<!--                              </span><br>-->
+<!--                              <span class="info_content">-->
+<!--                                트레이너 분들 카레 한 접시 먹고 가세요 *^^*-->
+<!--                              </span>-->
+<!--                            </div>-->
+<!--                          </div>  -->
+<!--                        </div>-->
+<!--                      </li>-->
+<!--                      <li>-->
+<!--                        <div class="collapsible-header"><i class="material-icons">local_cafe</i><span style="font-size:15px;">스타벅스</span></div>-->
+<!--                      </li>-->
+<!--                      <li>-->
+<!--                        <div class="collapsible-header"><i class="material-icons">store_mall_directory</i><span style="font-size:15px;">GS25</span></div>-->
+<!--                      </li>-->
+<!--                    </ul>-->
+                  
+<!--                </div>    -->
+                
+<!--            </div>-->
+<!--          </li>-->
+<!--        </ul>-->
+
+</div>

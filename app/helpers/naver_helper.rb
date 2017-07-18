@@ -1,0 +1,2 @@
+module NaverHelper
+end

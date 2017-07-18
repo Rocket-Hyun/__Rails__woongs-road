@@ -1,0 +1,96 @@
+<!--<div id="fb-root"></div>-->
+<!--<script>-->
+<!--  window.fbAsyncInit = function() {-->
+<!--    FB.init({-->
+      <!--appId      : '1728767394054619', // 앱 ID-->
+      <!--status     : true,          // 로그인 상태를 확인-->
+      <!--cookie     : true,          // 쿠키허용-->
+      <!--xfbml      : true           // parse XFBML-->
+<!--    });-->
+
+<!--    FB.getLoginStatus(function(response) {-->
+<!--      if (response.status === 'connected') {-->
+<!--        FB.api('/me', function(user) {-->
+<!--          if (user) {-->
+<!--            var image = document.getElementById('image');-->
+<!--            image.src = 'http://graph.facebook.com/' + user.id + '/picture';-->
+<!--            var name = document.getElementById('name');-->
+<!--            name.innerHTML = user.name-->
+<!--            var id = document.getElementById('id');-->
+<!--            id.innerHTML = user.id-->
+<!--          }-->
+<!--        });-->
+
+<!--      } else if (response.status === 'not_authorized') {-->
+
+<!--      } else {-->
+
+<!--      }-->
+<!--    });-->
+
+<!--    FB.Event.subscribe('auth.login', function(response) {-->
+<!--      document.location.reload();-->
+<!--    });-->
+<!--  };-->
+
+  <!--// Load the SDK Asynchronously-->
+<!--  (function(d, s, id) {-->
+<!--    var js, fjs = d.getElementsByTagName(s)[0];-->
+<!--    if (d.getElementById(id)) return;-->
+<!--    js = d.createElement(s); js.id = id;-->
+<!--    js.src = "//connect.facebook.net/ko_KR/all.js";-->
+<!--    fjs.parentNode.insertBefore(js, fjs);-->
+<!--  }(document, 'script', 'facebook-jssdk'));-->
+
+<!--</script>-->
+
+<div class="navbarArea">
+  <div class="container nav-wrapper">
+    <img class="logoImg" src="<%= image_path 'navbar_logo.png' %>">
+    <button class="navbar-toggle" type="button">
+      <a href="#" data-activates="slide-out" class="right button-collapse"><img class="menuImg" src="<%= image_path 'navbar_menu.png' %>"></a>
+    </button>
+  </div>
+</div>
+
+<!--<div class="sidebarArea">-->
+  <ul id="slide-out" class="side-nav">
+    <!--<li>-->
+      <!--<div class="row" id="side-profile" style="padding-top:12px;padding-bottom:12px">-->
+      <!--  <div class="col col s5 m5 l5">-->
+      <!--    <div class="right-align">-->
+        <!--<img class="background" src="<%#= image_path 'profile_background.png' %>">-->
+
+
+      <!--  <img class="circle" id="image" style="height:70px;width:auto;float:left;" src="<%#= image_path 'sidebar_default.png' %>">-->
+
+      <!--</div>-->
+      <!--</div>-->
+      <!--<div class="col col s7 m7 l7">-->
+      <!--  <div id="name" style="font-size:1.3em;margin-left:5px;margin-top:10px">웅이로드</div>-->
+      <!--  <div class="fb-login-button" style="margin-left:5px;" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="true"></div>-->
+      <!--   </div>-->
+      <!--   </div>-->
+
+    <!--</li>-->
+    <div class="listView">
+      <li><img class="listImg" src="<%= image_path 'sidebar_marker.png' %>"><span class="white-text subheader">바 로 가 기</span></li>
+      <li><a id="m_seoul" class="waves-effect white-text"><span>서 울</span></a></li>
+      <li><a id="m_busan" class="waves-effect white-text"><span>부 산</span></a></li>
+      <li><a id="m_ulsan" class="waves-effect white-text"><span>울 산</span></a></li>
+      <li><a id="m_ulleungdo" class="waves-effect white-text"><span>울릉도</span></a></li>
+      <li><a id="m_dokdo" class="waves-effect white-text"><span>독 도</span></a></li>
+      <img class="dividerImg" src="<%= image_path 'sidebar_divider.png' %>">
+
+      <li><img class="listImg" src="<%= image_path 'sidebar_connect.png' %>"><span class="white-text subheader">연 결 하 기</span></li>
+      <li><a href="https://fb.me/woongroad" target="_blank" class="waves-effect white-text"><span>페이스북 페이지</span></a></li>
+      <li><a href="https://m.me/woongroad" target="_blank" class="waves-effect white-text"><span>메세지 보내기</span></a></li>
+      <li><a href="https://goo.gl/forms/NVRCmpbBr4tUPwGN2" target="_blank" class="waves-effect white-text"><span>의견 전달하기</span></a></li>
+      <img class="dividerImg" src="<%= image_path 'sidebar_divider.png' %>">
+
+      <li><img class="listImg" src="<%= image_path 'sidebar_info.png' %>"><span class="white-text subheader">...에 관하여</span></li>
+      <li><a class="waves-effect white-text guide"><span>사 용 방 법</span></a></li>
+      <img class="dividerImg" src="<%= image_path 'sidebar_divider.png' %>">
+    </div>
+  </ul>
+<!--</div>-->

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>웅이로드</title>
+  <!--네이버 검색 등록-->
+  <meta name="naver-site-verification" content="bc1f149e0bf4939dd44040a28a2505a4ff3611b9"/>
+  <meta property="keywords" content="트레이너, 포켓몬GO, 포켓몬고, 포켓몬, 포켓고, 포켓go, 포켓스탑, 체육관, 속초, 관장, 닌텐도, 나이앤틱">
+  <meta name="description" content="포켓몬고(포켓몬GO) 포켓스탑 체육관 지도! 서울, 인천, 부산 포켓스탑">
+
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- 구글지도 -->
+  <!-- <script src="https://maps.google.com/maps/api/js?sensor=false"></script> -->
+
+  <!-- 네이버지도 -->
+  <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=9BqYP8oFBx34__nhFd6W"></script>
+  <!-- 개발용 -->
+  <!-- <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=VSY3ErAgDjmzPQBjau3V"></script> -->
+
+  <!--웹페이지 아이콘-->
+  <link rel="icon" href="<%= image_path 'web_icon.png' %>">
+
+<script>
+var userAgent = navigator.userAgent.toLowerCase(); // 접속 핸드폰 정보
+
+// 모바일 홈페이지 바로가기 링크 생성
+if(userAgent.match('iphone')) {
+    document.write('<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-barstyle" content="black-translucent"><link rel="apple-touch-icon" href="<%= image_path 'icon.png' %>" />')
+} else if(userAgent.match('ipad')) {
+    document.write('<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-barstyle" content="black-translucent"><link rel="apple-touch-icon" sizes="72*72" href="<%= image_path 'icon.png' %>" />')
+} else if(userAgent.match('ipod')) {
+    document.write('<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-barstyle" content="black-translucent"><link rel="apple-touch-icon" href="<%= image_path 'icon.png' %>" />')
+} else if(userAgent.match('android')) {
+    document.write('<meta name="mobile-web-app-capable" content="yes"><link rel="shortcut icon" href="<%= image_path 'icon.png' %>" />')
+}
+</script>
+
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+  <%= csrf_meta_tags %>
+
+
+</head>
+<body>
+
+<%= render 'layouts/navbar' %>
+
+<%= yield %>
+
+
+
+<!--구글 애널리틱스-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-80267324-3', 'auto');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>

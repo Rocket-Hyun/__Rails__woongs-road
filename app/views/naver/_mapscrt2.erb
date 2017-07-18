@@ -1,0 +1,138 @@
+<script>
+// 지도 옵션
+var mapOptions = {
+    // 지도 중앙
+    center: new naver.maps.LatLng(38.190517, 128.599078),
+    // zoom 레벨
+    zoom: 10,
+    zoomControl: false,
+    logoControl: false,
+    mapDataControl: false,
+    mapTypeControl: true,
+    scaleControl: false,
+
+};
+
+// 지도 만들기('지도', 지도옵션)
+var map = new naver.maps.Map('map', mapOptions);
+
+// 현재 화면 위치 가져오기
+var bounds = map.getBounds(),
+    southWest = bounds.getSW(),
+    northEast = bounds.getNE(),
+    lngSpan = northEast.lng() - southWest.lng(),
+    latSpan = northEast.lat() - southWest.lat();
+
+
+        var mapBounds = map.getBounds();
+        var markers = []
+
+        $.ajax({
+          method: "POST",
+          url: "/naver/index",
+          data: {fromlat: mapBounds.getNE().y, tolat: mapBounds.getSW().y, fromlng: mapBounds.getNE().x, tolat: mapBounds.getSW().x}
+        })
+        .done(function (msg) {
+          console.log("성공");
+      })
+
+
+// 현재 지도 화면에 있는 마커만 보이기
+naver.maps.Event.addListener(map, 'idle', function() {
+    updateMarkers(map, markers);
+});
+
+function updateMarkers(map, markers) {
+
+    var mapBounds = map.getBounds();
+    // console.log(mapBounds.getNE());
+    console.log(mapBounds.getNE().y);
+    console.log(mapBounds.getNE().x);
+
+    // console.log(mapBounds.getSW());
+    console.log(mapBounds.getSW().y);
+    console.log(mapBounds.getSW().x);
+
+}
+
+
+var locationBtnHtml = '<div id="geolocationBtn" class="" style="background-color: rgb(255, 255, 255); border: 2px solid rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px; margin-right: 10px; cursor: pointer; border-radius: 2px; padding: 3px; z-index: 0; position: absolute; bottom: 14px; right: 0px;"><div id="geolocationIcon"></div></div>';
+
+//customControl 객체를 이용하기
+var customControl = new naver.maps.CustomControl(locationBtnHtml, {
+    position: naver.maps.Position.BOTTOM_RIGHT
+});
+
+customControl.setMap(map);
+
+var domEventListener = naver.maps.Event.addDOMListener(customControl.getElement(), 'click', function() {
+    if (document.getElementById("geolocationIcon").classList.contains('geoClicked')) {
+      document.getElementById("geolocationIcon").classList.remove( 'geoClicked' );
+      marker.setMap(null);
+    }
+    else {
+      checkingGeolocation();
+      marker.setMap(null);
+      marker.setMap(map);
+    }
+
+});
+
+
+
+
+// 현재위치
+
+function onSuccessGeolocation(position) {
+    var location = new naver.maps.LatLng(position.coords.latitude,
+                                         position.coords.longitude);
+
+    map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
+    map.setZoom(13); // 지도의 줌 레벨을 변경합니다.
+
+    var mymarker = new naver.maps.Marker({
+        position: location,
+        map: map,
+        icon: {
+            url: '<%= image_path "myplace.png" %>',
+            // naver.maps.Size(width,height)
+            size: new naver.maps.Size(18, 18),
+            // 강제로 이미지 사이즈를 조절
+            scaledSize: new naver.maps.Size(15, 15),
+
+            // naver.maps.Point(x좌표,y좌표)
+            // origin: 이미지의 아이콘을 사용할 때 이미지의 원점입니다.
+            // 즉, 이 원점 위치로부터 size 속성의 값만큼 화면에 노출됩니다.
+            origin: new naver.maps.Point(0, 0)
+
+            // anchor: 지도 위에 놓이는 마커의 위치와 일치시킬 아이콘의 기준 위치입니다.
+            // 이 속성을 설정하지 않으면 아이콘의 아래쪽 가운데로 설정합니다.
+            // anchor: new naver.maps.Point(25, 26)
+        },
+        zIndex:0
+    });
+
+    document.getElementById("geolocationIcon").className += " geoClicked"
+}
+
+function onErrorGeolocation() {
+    var center = map.getCenter();
+
+    infowindow.setContent('<div style="padding:20px;">' +
+        '<h5 style="margin-bottom:5px;color:#f00;">Geolocation failed!</h5>'+ "latitude: "+ center.lat() +"<br />longitude: "+ center.lng() +'</div>');
+
+    infowindow.open(map, center);
+}
+
+function checkingGeolocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
+    } else {
+        var center = map.getCenter();
+        infowindow.setContent('<div style="padding:20px;"><h5 style="margin-bottom:5px;color:#f00;">Geolocation not supported</h5>'+ "latitude: "+ center.lat() +"<br />longitude: "+ center.lng() +'</div>');
+        infowindow.open(map, center);
+    }
+};
+
+
+</script>
